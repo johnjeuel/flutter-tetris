@@ -11,7 +11,7 @@ enum BlockMovement {
 }
 
 class Block {
-  List<List<SubBlock>>? orientations;
+  List<List<SubBlock>>? orientations = [];
   int? x;
   int? y;
   int? orientationIndex;

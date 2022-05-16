@@ -15,7 +15,7 @@ class Game extends StatefulWidget {
 
 class GameState extends State<Game> {
   GlobalKey _keyGameArea = GlobalKey();
-  Duration duration = const Duration(microseconds: refreshRate);
+  Duration duration = const Duration(milliseconds: 300);
   double? subBlockWidth;
   Block? block;
   Timer? timer;
@@ -47,20 +47,16 @@ class GameState extends State<Game> {
   }
 
   void startGame() {
-    setState(() {
-      isPlaying = true;
-    });
+    isPlaying = true;
     RenderBox? renderBoxGame = _keyGameArea.currentContext?.findRenderObject()! as RenderBox;
     subBlockWidth = (renderBoxGame.size.width - gameAreaBorderWidth * 2) / blocksX;
-
     block = getNewBlock();
-
     timer = Timer.periodic(duration, onPlay);
   }
 
   void onPlay(Timer timer) {
     setState(() {
-      block!.move(BlockMovement.down);
+        block!.move(BlockMovement.down);
     });
   }
 
@@ -81,14 +77,12 @@ class GameState extends State<Game> {
   }
 
   void endGame() {
-    setState(() {
       isPlaying = false;
-    });
     timer!.cancel();
   }
 
   Widget drawBlocks() {
-    // if(block == null) return null;
+    if(block == null) return SizedBox();
     List<Positioned> subBlocks = <Positioned>[];
 
     block!.subBlocks.forEach((subBlock) {
@@ -112,6 +106,7 @@ class GameState extends State<Game> {
           ),
           borderRadius: const BorderRadius.all(Radius.circular(10))
         ),
+        child: drawBlocks(),
       ),
     );
   }

@@ -1,11 +1,16 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter_tetris/provider/data.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tetris/modules/game.dart';
 import 'package:flutter_tetris/modules/next_block.dart';
+import 'package:flutter/services.dart';
 import 'modules/score_bar.dart';
 
 void main() {
-  runApp(const TetrisApp());
+  runApp(ChangeNotifierProvider(
+      create: (context) => Data(),
+      child: const TetrisApp(),
+  ));
 }
 
 class TetrisApp extends StatefulWidget {
@@ -20,6 +25,8 @@ class _TetrisAppState extends State<TetrisApp> {
 
   @override
   Widget build(BuildContext context) {
+    final _dataProvider = Provider.of<Data>(context, listen: true);
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -31,8 +38,8 @@ class _TetrisAppState extends State<TetrisApp> {
         body: SafeArea(
           child: Column(
             children: <Widget>[
-              ScoreBar(),
-              SizedBox(height: 50),
+              const ScoreBar(),
+              const SizedBox(height: 50),
               Expanded(
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,7 +62,7 @@ class _TetrisAppState extends State<TetrisApp> {
                               SizedBox(height: 30),
                               RaisedButton(
                                   child: Text(
-                                    _keyGame.currentContext != null && _keyGame.currentState!.isPlaying ? 'End'
+                                    _dataProvider.isPlaying ? 'End'
                                     : 'Start',
                                     style: TextStyle(
                                       fontSize: 18,
@@ -63,11 +70,9 @@ class _TetrisAppState extends State<TetrisApp> {
                                     ),
                                   ),
                                   onPressed: (){
-                                    setState(() {
-                                      _keyGame.currentState != null && _keyGame.currentState!.isPlaying
+                                      _dataProvider.isPlaying
                                           ? _keyGame.currentState!.endGame()
                                           : _keyGame.currentState!.startGame();
-                                    });
                                   },
                                 color: Colors.indigo.shade700,
                               )

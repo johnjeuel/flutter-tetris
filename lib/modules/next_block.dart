@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/data.dart';
 
 class NextBlock extends StatefulWidget {
   const NextBlock({Key? key}) : super(key: key);
@@ -16,21 +19,24 @@ class _NextBlockState extends State<NextBlock> {
         color: Colors.white,
       ),
       width: double.infinity,
-      padding: EdgeInsets.all(5),
+      padding: const EdgeInsets.all(5),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
+          const Text(
             'Next',
             style: TextStyle(
               fontWeight: FontWeight.bold
             ),
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           AspectRatio(
               aspectRatio: 1,
             child: Container(
               color: Colors.indigo.shade600,
+              child: Center(
+                child: Provider.of<Data>(context, listen: false).getNextBlockWidget(),
+              ),
             ),
           )
         ],

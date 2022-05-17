@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/data.dart';
 
 class ScoreBar extends StatefulWidget {
   const ScoreBar({Key? key}) : super(key: key);
@@ -25,7 +28,7 @@ class _ScoreBarState extends State<ScoreBar> {
           Padding(
               padding: EdgeInsets.all(10),
               child: Text(
-                'Score: 0',
+                'Score: ${Provider.of<Data>(context).score}',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
